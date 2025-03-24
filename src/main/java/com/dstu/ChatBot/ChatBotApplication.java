@@ -3,6 +3,7 @@ package com.dstu.ChatBot;
 import com.dstu.ChatBot.Data.ConnectionManager;
 import com.dstu.ChatBot.Entity.Student;
 import com.dstu.ChatBot.dao.StudentsDao;
+import com.dstu.ChatBot.dto.FilterStudent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -33,11 +34,11 @@ public class ChatBotApplication {
 	public static void main(String[] args) throws IOException, InterruptedException, SQLException {
 		SpringApplication.run(ChatBotApplication.class, args);
 		var studentrDao = StudentsDao.getInstance();
-		Student student = new Student();
-		student.setChatId(12345L);
-		System.out.println(studentrDao.save(student));
-		System.out.println(studentrDao.delete( 21L));
-//
+//		Student student = new Student();
+//		student.setChatId(12345L);
+//		System.out.println(studentrDao.save(student));
+//		System.out.println(studentrDao.delete( 21L));
+////
 //		String url = "https://edu.donstu.ru/api/raspGrouplist?year=2024-2025";
 //
 //		HttpClient client = HttpClient.newHttpClient();
@@ -48,6 +49,6 @@ public class ChatBotApplication {
 //
 //		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 //		System.out.println("Ответ сервера: " + response.body().toString());
-
+		System.out.println(studentrDao.findByUsername("gapmeeeeee"));
     }
 }

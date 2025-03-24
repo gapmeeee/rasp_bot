@@ -3,7 +3,6 @@ package com.dstu.ChatBot.Entity;
 import java.util.Objects;
 
 public class Student {
-    private Long id;
     private Long chatId;
     private String username;
     private String fio;
@@ -21,14 +20,18 @@ public class Student {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, chatId, username, fio, akademGroup, kurs, facult, studentId);
+        return Objects.hash(chatId, username, fio, akademGroup, kurs, facult, studentId);
     }
 
-    public Student() {
+    private Student() {
     }
 
-    public Student(Long id, Long chatId, String username, String fio, String akademGroup, Integer kurs, String facult, Integer studentId) {
-        this.id = id;
+    public Student(Long chatId, String username) {
+        this.chatId = chatId;
+        this.username = username;
+    }
+
+    public Student(Long chatId, String username, String fio, String akademGroup, Integer kurs, String facult, Integer studentId) {
         this.chatId = chatId;
         this.username = username;
         this.fio = fio;
@@ -38,13 +41,6 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public Long getId(long l) {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getChatId() {
         return chatId;
@@ -106,6 +102,19 @@ public class Student {
             return 0;
         }
         return studentId;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "chatId=" + chatId +
+                ", username='" + username + '\'' +
+                ", fio='" + fio + '\'' +
+                ", akademGroup='" + akademGroup + '\'' +
+                ", kurs=" + kurs +
+                ", facult='" + facult + '\'' +
+                ", studentId=" + studentId +
+                '}';
     }
 
     public void setStudentId(Integer studentId) {
