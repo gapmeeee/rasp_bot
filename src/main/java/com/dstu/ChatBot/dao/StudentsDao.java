@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class StudentsDao {
+public class StudentsDao implements Dao<Long, Student>{
     private final static  StudentsDao INSTANCE = new StudentsDao();
 
     private final static String SAVE_SQL = """
@@ -32,12 +32,17 @@ public class StudentsDao {
             """;
     private static final String FIND_BY_ID_SQL = """
             SELECT chat_id, fio, akadem_group, kurs, facult, username, student_id 
-            FROM dstu.students WHERE id = ?; 
+            FROM dstu.students WHERE chat_id = ?; 
             """;
     private static final String FIND_BY_USERNAME_SQL = """
             SELECT chat_id, fio, akadem_group, kurs, facult, username, student_id 
             FROM dstu.students WHERE username = ?; 
-            """;;
+            """;
+    private static final String UPDATE_SQL = """
+            UPDATE dstu.students 
+            set fio = ?, akadem_group = ?, kurs = ?, facult = ?, username = ?, student_id = ?
+            WHERE chat_id = ?;
+            """;
 
     public static StudentsDao getInstance(){
         return INSTANCE;
@@ -47,14 +52,13 @@ public class StudentsDao {
     public Student save (Student student){
         try(var connection = ConnectionManager.open();
         var statement = connection.prepareStatement(SAVE_SQL)){
-
-            statement.setLong(0, student.getChatId());
-            statement.setString(1, student.getFio());
-            statement.setString(2, student.getAkademGroup());
-            statement.setInt(3, student.getKurs());
-            statement.setString(4, student.getFacult());
-            statement.setString(5, student.getUsername());
-            statement.setInt(6, student.getStudentId());
+            statement.setLong(1, student.getChatId());
+            statement.setString(2, student.getFio());
+            statement.setString(3, student.getAkademGroup());
+            statement.setInt(4, student.getKurs());
+            statement.setString(5, student.getFacult());
+            statement.setString(6, student.getUsername());
+            statement.setInt(7, student.getStudentId());
 
             statement.executeUpdate();
             return student;
@@ -73,7 +77,7 @@ public class StudentsDao {
         }
     }
 
-    public Optional<Student> findByChatId(Long chatId){
+    public Optional<Student> findById(Long chatId){
         try(var connection = ConnectionManager.open();
             var statement = connection.prepareStatement(FIND_BY_ID_SQL)){
             statement.setLong(1, chatId);
@@ -112,6 +116,22 @@ public class StudentsDao {
                 result.getString("facult"),
                 result.getInt("student_id")
         );
+    }
+
+    @Override
+    public boolean upadate(Student student) {
+        try (var connection = ConnectionManager.open();
+        var statement = connection.prepareStatement(UPDATE_SQL);){
+            statement.setString(0, student.getFio());
+            statement.setString(1, student.getAkademGroup());
+            statement.setInt(2, student.getKurs());
+            statement.setString(3, student.getFacult());
+            statement.setString(4, student.getUsername());
+            statement.setInt(5, student.getStudentId());
+            return statement.executeUpdate()>0;
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
     }
 
     public List<Student> findAll(){

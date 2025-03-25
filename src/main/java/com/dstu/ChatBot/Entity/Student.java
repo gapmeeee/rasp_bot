@@ -15,7 +15,7 @@ public class Student {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return kurs == student.kurs && studentId == student.studentId && Objects.equals(id, student.id) && Objects.equals(chatId, student.chatId) && Objects.equals(username, student.username) && Objects.equals(fio, student.fio) && Objects.equals(akademGroup, student.akademGroup) && Objects.equals(facult, student.facult);
+        return kurs == student.kurs && studentId == student.studentId  && Objects.equals(chatId, student.chatId) && Objects.equals(username, student.username) && Objects.equals(fio, student.fio) && Objects.equals(akademGroup, student.akademGroup) && Objects.equals(facult, student.facult);
     }
 
     @Override

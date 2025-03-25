@@ -40,7 +40,10 @@ public class TelegramBot extends TelegramLongPollingBot{
 
         String answer = "Здорова братишка "+ firstName + " скажи в какой ты группе";
         Student student = new Student(chatId, firstName);
-//        studentsDao.save(student);
+        if(studentsDao.findById(chatId).isEmpty()){
+            studentsDao.save(student);
+        }
+
         sendMessage(chatId, answer);
     }
     private void sendMessage(long chatId, String textToSend){
